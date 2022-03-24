@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 上傳檔案的表單 -->
+    <div class="container">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <form name="form1" onsubmit="sendData(); return false;">
+                <div class="mb-3">
+                    <input type="file" class="form-control" name="avatar" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    <br>
+    <img id='myimg' src='' alt=''>
+    </div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script>
+        function sendData(){
+            const fd = new FormData(document.form1);   //類似沒有外觀的表單
+            
+            //使用ajax上傳檔案 (制式打法)
+            fetch('/try-upload',{   
+                method:'POST',
+                body: fd,
+            }).then(response=>response.json()).then(obj=>{
+                console.log(obj);
+
+                document.querySelector('#myimg').src = '/img/' + obj.filename;
+                // myimg.src='/img/' + obj.filename;    //如果只有唯一id
+                // $('#myimg').attr('src','/img/'+ obj.filename);
+            })
+            
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="fontawesome/css/all.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script>
+      const myPromiseFunc = function () {
+        return new Promise((resolve, reject) => {
+          const rnd = 300 + Math.floor(Math.random() * 1000);
+          setTimeout(function () {
+            resolve(rnd);
+          }, rnd);
+        });
+      };
+
+      async function myFunc() {   //async 同步執行的意思
+       
+        for (let i = 0; i < 10; i++) {
+          const r1 = await myPromiseFunc(); //awiat 只能在async下使用 表執行完才執行下一個
+          console.log(r1);
+        }
+      }
+
+      console.log("---1");
+      myFunc().then((r) => {
+        console.log("---2"); //因為為非同步 這個會最後執行
+      });
+
+      console.log("---3");
+    </script>
+  </body>
+</html>

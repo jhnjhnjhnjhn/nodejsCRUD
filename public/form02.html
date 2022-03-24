@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <title>Document</title>
+</head>
+<body>
+    <!-- AJAX 送表單資料 -->
+    <div class="container">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <form name="form1" onsubmit="sendData();return false" novalidate >  <!--onsubmit: 按傳送前先不上傳表單 去執行sendData()-->
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" 
+                    name="email" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="cb1" name="cb[]" value="游泳">
+                    <label class="form-check-label" for="cb1">游泳</label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="cb2" name="cb[]" value="慢跑">
+                    <label class="form-check-label" for="cb2">慢跑</label>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="cb3" name="cb[]" value="籃球">
+                    <label class="form-check-label" for="cb3">籃球</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    </div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script>
+        //用ajax上傳表單
+        function sendData(){
+            console.log( $(document.form1).serialize() );
+
+            $.post('/try-post', $(document.form1).serialize(), function(data){
+                console.log(data);
+            }, 'json');
+
+
+
+        }
+
+    </script>
+</body>
+</html>

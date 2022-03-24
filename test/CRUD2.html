@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新增會員資料</title>
+    <style>
+        fieldset {
+            width: 500px;
+            margin: 15px auto;
+            border: 2px #acd6ff;
+            border-style: groove;
+            border-radius: 20px;
+        }
+
+        legend {
+            color: #063cee;
+            /* text-align:center; */
+            margin-left: 50px;
+        }
+
+        .st1 {
+            width: 450px;
+            border-bottom: 1.5px ridge #d0d0d0;
+            margin: 20px;
+            padding-bottom: 10px;
+        }
+
+        .sub {
+            width: 450px;
+            margin: 20px;
+            text-align: center;
+            margin: auto;
+        }
+
+        .t1 {
+            width: 100px;
+            float: left;
+            text-align: right;
+        }
+
+        em {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/taiwan_districts.js"></script>
+
+    <form action="" method="post" enctype="multipart/form-data" onsubmit="return checkForm();">
+        <fieldset>
+            <legend>設定帳號密碼<em>(必填)</em></legend>
+
+            <div class="st1">
+                <label for="user1" class="t1">帳號&nbsp&nbsp&nbsp</label>
+                <input type="text" id="username" name="username" required maxlength="20">
+            </div>
+            <div class="st1">
+                <label for="pwd1" class="t1">密碼&nbsp&nbsp&nbsp</label>
+                <input type="password" id="pwd1" name="pwd" required maxlength="20">
+            </div>
+
+
+        </fieldset>
+        <fieldset>
+            <legend>基本資料<em>(必填)</em></legend>
+            <div class="st1">
+                <label for="account1" class="t1">姓名&nbsp&nbsp&nbsp</label>
+                <input type="text" id="account1" autofocus name="account1" placeholder="guest" autocomplete="off" size="10" required>
+            </div>
+            <div class="st1">
+                <label for="" class="t1">性別&nbsp&nbsp&nbsp</label>
+                <input type="radio" name="gender" value="male" id="m1" required><label for="m1">男</label>
+                <label>
+                    <input type="radio" name="gender" value="female">女
+                </label>
+
+            </div>
+            <div class="st1">
+                <label for="" class="t1">生日&nbsp&nbsp&nbsp</label>
+                <input type="date" name="birth">
+            </div>
+
+
+        </fieldset>
+        <fieldset>
+            <legend>聯絡資訊<em>(必填)</em></legend>
+            <div class="st1">
+                <label for="" class="t1">E-mail&nbsp&nbsp&nbsp</label>
+                <input type="email" name="mail">
+            </div>
+            <div class="st1">
+                <label for="" class="t1">身分證字號&nbsp&nbsp&nbsp</label>
+                <input type="text" name="idcode" maxlength="10" >
+            </div>
+            <div class="st1">
+                <label for="" class="t1">地址&nbsp&nbsp&nbsp</label>
+                <select id="City"></select>
+                <select id="District"></select>
+            </div>
+            <div class="st1">
+                <label for="" class="t1">&nbsp&nbsp&nbsp</label>
+                <input type="text" name="add2" size="30">
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>其他</legend>
+
+            <div class="st1">
+                <label for="" class="t1">照片:</label>
+                <input type="file" name="file1" multiple>
+            </div>
+
+            <div class="st1">
+                <label for="comment1" class="t1">意見:</label>
+                <textarea name="comment" id="comment1" cols="40" rows="5"></textarea>
+            </div>
+        </fieldset>
+
+        <div class="sub">
+            <input type="submit" value="送出">
+            <input type="reset" value="清除">
+        </div>
+
+
+    </form>
+    <script>
+
+        // 驗證資料輸入格式是否正確
+        function checkForm() {
+            /**
+             * myForm 當中，input 元素的 name 屬性之值為 username，
+             * 在此判斷是否小於 2 個字，是的話，則跳出警示訊息。
+             */
+            if (document.querySelector('input[name="account1"]').value.length < 2) {
+                alert('請填寫正確姓名');
+                return false;
+            }
+
+            /**
+             * 若是 validateEmail(email) 回傳結果為 false，
+             * 則透過 ! 來讓 false 變成 true，
+             * 使 if 判斷結果成立，跳出警示訊息。
+             */
+            if (!validateEmail(document.querySelector('input[name="email"]').value)) {
+                alert('E-mail 格式不正確');
+                return false;
+            }
+
+            //回傳 true，讓 onsubmit 事件可以順利觸發
+            return true;
+        }
+
+        //驗證 E-mail
+        function validateEmail(email) {
+            var re = /[a-zA-Z0-9.-_]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+/;
+            return re.test(email);
+        }
+
+        //匯入台灣行政區
+        $.each(data, function (index, city) {
+            $("#City").append(`<option value="${index}">${city.name}</option>`)
+            
+        })
+
+        $("#City").change(function () {
+            let cityindex = $(this).val();
+            console.log(cityindex)
+            let city=data[cityindex];
+            console.log(city);
+            $("#District").empty();
+            $.each(city.districts, function (cityindex, districts) {
+                $("#District").append(`<option>${districts.zip}${districts.name}</option>`);
+            })
+        })
+        $("#City").change();  //激活"#City" 的change 事件 讓#City的select擁有初值
+
+    </script>
+</body>
+
+</html>

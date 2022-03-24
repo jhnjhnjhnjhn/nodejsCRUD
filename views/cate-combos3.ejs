@@ -1,0 +1,35 @@
+<%- include('parts/html-head') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <form onsubmit="showData();return false">
+                <div class="mb-3">
+                    <select class="form-select" name="lv1" id="lv1">
+                        <% for(let i of cate){ %>
+                            <option value="<%= i.sid %>" <%= lv1==i.sid ? 'selected' : '' %>><%= i.name %></option>
+                        <% } %>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+<%- include('parts/scripts') %>
+<script>
+ 
+function showData() {
+    console.log({
+        lv1: lv1.val(),
+
+    });
+}
+</script>
+<%- include('parts/html-foot') %>

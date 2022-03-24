@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4</title>
+    <style>
+        #table1 {
+            text-align: center;
+            width: 30%;
+            padding: 10px;
+            border: solid 2px grey;
+            color: black;
+            float: left;
+            margin-right: 50px;
+        }
+
+        .td1 {
+            width: 30%;
+            padding: 3px;
+            border: solid 3px grey;
+            font-size: 20px;
+            color: black;
+            cursor: pointer;
+        }
+
+        .td2,
+        .td3 {
+            width: 30%;
+            padding: 10px;
+            border: solid 2px rgb(150, 178, 255);
+            font-size: 16px;
+            color: black;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex justify-content-center pt-3">
+        <h2>台灣行政區郵遞區號</h2>
+        <table id="table1">
+
+        </table>
+    </div>
+    <div class="Select1">
+        <h3>請選擇城市及區域</h3>
+        <select id="City"></select>
+        <select id="District"></select>
+    </div>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/taiwan_districts.js"></script>
+
+    <script>
+        $.each(data, function (index, city) {
+            $("#City").append(`<option value="${index}">${city.name}</option>`);  //value 是要提供給72行的val()去讀取
+            $.each(city.districts, function (index, districts1) {
+                if (index == 0) {                                                                  //假如districts的index=0時 新增台北市及其各區域
+                    $("#table1").append(`<tr><td class=td1  rowspan="${city.districts.length}">${city.name}</td><td class=td2 >${districts1.zip}</td><td class=td3 >${districts1.name}</td></tr>`);
+                }    //if 與else 之間不能有分號(;)
+                else {                                                                            //其他的districts之index 則新增地區即可
+                    $("#table1").append(`<tr><td class=td2 >${districts1.zip}</td><td class=td3 >${districts1.name}</td></tr>`);
+                    // $("#District").append(`<option value="${districts1.zip}"${districts1.name}>${districts1.zip}${districts1.name}</option>`);
+                };
+            });
+        })
+
+        $("#City").change(function () {
+            let cityindex = $(this).val();
+            console.log(cityindex)
+            let city=data[cityindex];
+            console.log(city);
+            $("#District").empty();
+            $.each(city.districts, function (cityindex, districts) {
+                $("#District").append(`<option>${districts.zip}${districts.name}</option>`);
+            })
+        })
+        $("#City").change();  //讓#City的select擁有初值
+
+    </script>
+
+</body>
+
+</html>

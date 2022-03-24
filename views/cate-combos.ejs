@@ -1,0 +1,66 @@
+<%- include('parts/html-head') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <form onsubmit="showData() ; return false">
+                <div class="mb-3">
+                    <select class="form-select" name='lv1' id='lv1'>
+                        
+                    </select>
+                </div>
+
+
+                <div class="mb-3">
+                    <select class="form-select" name='lv2' id='lv2'>
+                        
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+<%- include('parts/scripts') %>
+<script>
+            // 將後端資料引入前端使用
+const cate = <%- JSON.stringify(cate) %>;  // 不要用  < % =  會跳脫字元  
+const lv1 = $('#lv1')
+const lv2 = $('#lv2')
+
+
+for (let i of cate){
+        lv1.append(`<option value="${i.sid}">${i.name}</option>`)
+}
+
+function onLv1Changed(){
+    
+    for (let i of cate){
+        if(i.sid == lv1.val()){
+            lv2.html('');     //清空lv2內容
+            for (let k of i.nodes){
+            lv2.append(`<option value="${k.sid}">${k.name}</option>`);        
+            }    
+            break;
+        }
+   
+    }
+}
+onLv1Changed();   //在網頁載入初期 先執行一次func.
+lv1.on('change',onLv1Changed) //事件監聽
+
+function showData() {
+    console.log({
+        lv1: lv1.val(),
+        lv2: lv2.val()
+    });
+}
+
+
+</script>
+<%- include('parts/html-foot') %>

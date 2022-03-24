@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script>
+
+        const myPromiseFunc = function(){
+            return new Promise((resolve, reject)=>{
+                const rnd = 300 + Math.floor(Math.random()*1000);
+                setTimeout(function(){
+                    resolve(rnd);
+                }, rnd);
+            });
+        }
+
+
+        myPromiseFunc()
+        .then(r=>{
+            console.log(r);
+            return myPromiseFunc();    //return結果會傳給下一個then 的 r
+        })
+        .then(r=>{
+            console.log(r);
+        })
+
+
+
+    </script>
+</body>
+</html>

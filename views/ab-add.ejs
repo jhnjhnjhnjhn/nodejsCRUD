@@ -1,0 +1,122 @@
+<%- include('parts/html-head') %>
+<%- include('parts/navbar') %>
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+    
+                <div class="card-body">
+                  <h5 class="card-title">新增資料</h5>
+
+                  <form name="form1" onsubmit="sendData(); return false;">
+                    <div class="mb-3">
+                      <label for="name" class="form-label">name **</label>
+                      <input type="text" class="form-control" id="name" name="name">
+                      <div class="form-text"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">email **</label>
+                        <input type="text" class="form-control" id="email" name="email">
+                        <div class="form-text"></div>
+                    </div>
+
+                      <div class="mb-3">
+                        <label for="mobile" class="form-label">mobile **</label>
+                        <input type="text" class="form-control" id="mobile" name="mobile">
+                        <div class="form-text"></div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="birthday" class="form-label">birthday</label>
+                        <input type="date" class="form-control" id="birthday" name="birthday">
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="address" class="form-label">address</label>
+                        <textarea class="form-control" name="address" id="address" cols="50" 
+                        rows="3"></textarea>
+                      </div>
+
+                    <button type="submit" class="btn btn-primary">新增</button>
+                  </form>
+
+
+
+                </div>
+              </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+<%- include('parts/scripts') %>
+<script>
+const name = $('#name');
+const email = $('#email');
+const mobile = $('#mobile');
+const email_re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+const mobile_re = /^09\d{2}-?\d{3}-?\d{3}$/;
+
+function sendData(){
+    name.next().html('');
+    name.css({ border: '1px solid #CCCCCC' });
+    email.next().html('');
+    email.css({ border: '1px solid #CCCCCC' });
+    mobile.next().html('');
+    mobile.css({ border: '1px solid #CCCCCC' });
+
+    //前端的 欄位資料的檢查
+    let isPass = true;
+
+    if(name.val().length < 2){
+        isPass = false;
+        //alert('請輸入正確的姓名');
+        name.next().html('請輸入正確的姓名');
+        name.css({
+            border: '1px solid red'
+        });
+    }
+
+    if(! email_re.test(email.val())){
+        isPass = false;
+        email.next().html('請輸入正確的 email');
+        email.css({
+            border: '1px solid red'
+        });
+    }
+
+    if(! mobile_re.test(mobile.val())){
+        isPass = false;
+        mobile.next().html('請輸入正確的手機號碼');
+        mobile.css({
+            border: '1px solid red'
+        });
+    }
+
+
+    if(isPass) {
+        $.post('', $(document.form1).serialize(), function(data){  //serialize轉換成url encoding 的格式
+            console.log(data);
+            if(data.success){
+              alert('資料新增成功');
+              location.href = '/address-book'; //轉向到列表頁
+            } else {
+              alert(data.error || "資料新增失敗");
+            }
+        }, 'json');
+
+    }
+
+}
+
+
+</script>
+<%- include('parts/html-foot') %>

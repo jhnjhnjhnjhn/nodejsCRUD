@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="fontawesome/css/all.css">
+    <title>Document</title>
+    
+</head>
+<body>
+    <!-- 上傳檔案的表單 -->
+    <div class="container">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <form name="form1" onsubmit="sendData(); return false;">
+                <div class="mb-3">
+                    <input type="file" class="form-control" name="photos" multiple accept="image/*">   <!--上傳多個檔案-->
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+    
+    </div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script>
+        async function sendData(){
+            const fd = new FormData(document.form1);
+
+            const r = await fetch('/try-uploads', {
+                method: 'POST',
+                body: fd,
+            });
+            
+            const obj = await r.json();
+            console.log(obj);
+        }
+
+    </script>
+</body>
+</html>

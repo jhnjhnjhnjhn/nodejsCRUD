@@ -1,0 +1,66 @@
+<%- include('parts/html-head') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <form onsubmit="showData();return false">
+                <div class="mb-3">
+                    <select class="form-select" name="lv1" id="lv1" data-val="<%= lv1 %>">  <!--  data-val: 自訂屬性 -->
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <select class="form-select" name="lv2" id="lv2" data-val="<%= lv2 %>">
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+<%- include('parts/scripts') %>
+<script>
+ 
+const cate = <%- JSON.stringify(cate) %>;
+const lv1 = $('#lv1');
+const lv2 = $('#lv2');
+
+for(let i of cate){
+    lv1.append(`<option value="${i.sid}">${i.name}</option>`);
+}
+
+lv1.val(lv1.attr('data-val'));//取得data-val屬性控制 以從後端傳初始值近來
+
+function onLv1Changed(){
+    for(let i of cate){
+        if(i.sid==lv1.val()){
+            lv2.html('');
+            for(let k of i.nodes){
+                lv2.append(`<option value="${k.sid}">${k.name}</option>`);
+            }
+            break;
+        }
+    }
+}
+onLv1Changed();
+
+lv1.on('change', onLv1Changed); //當lv1 change 執行onLv1Changed 函式
+
+lv2.val(lv2.attr('data-val')); //取得data-val屬性控制 以從後端傳初始值近來
+
+
+
+
+function showData() {
+    console.log({
+        lv1: lv1.val(),
+        lv2: lv2.val(),
+    });
+}
+</script>
+<%- include('parts/html-foot') %>

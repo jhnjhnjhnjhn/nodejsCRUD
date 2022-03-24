@@ -1,0 +1,26 @@
+<%- include('parts/html-head') %>
+<%- include('parts/navbar') %>
+
+<div class="container">
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">姓名</th>
+            <th scope="col">年齡</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(let i of sales){ %>      <!--  本行還未要輸出到html 不加= -->
+          <tr>
+            <td><%= i.id %></td>           <!-- 重此輸出 -->
+            <td><%= i.name %></td>         <!-- 等號(=)表裡面用html跳脫字元 減號(-)則是不用跳脫 -->
+            <td><%= i.age %></td>
+          </tr>
+          <% } %>
+        </tbody>
+      </table>
+</div>
+
+<%- include('parts/scripts') %>
+<%- include('parts/html-foot') %>

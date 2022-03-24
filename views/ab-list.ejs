@@ -1,0 +1,99 @@
+<%- include('parts/html-head') %>
+<%- include('parts/navbar') %>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  
+                  <!-- 上一頁按鈕 -->
+                  <li class="page-item <%= 1===page ? 'disabled' : '' %>">  <!-- 到第一頁 就disable -->
+                      <a class="page-link" href="?page=<%= page-1 %>">
+                        <i class="fas fa-arrow-circle-left"></i>
+                      </a>
+                    </li>
+                 
+                   <!-- 分頁按鈕 -->
+                   <!--for迴圈:顯示所處分頁的前後5個分頁  if:限制顯示分頁的範圍--> 
+                   <% for(let i=page-3; i<=page+3; i++)if(i>=1 && i<=totalPages){ %>  
+                    <li class="page-item <%= i===page ? 'active' : '' %>">    <!-- 所處在的分頁鈕 active -->
+                      <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+                    </li>
+                  <% } %>
+              
+                   <!-- 下一頁按鈕 -->
+                  <li class="page-item <%= totalPages===page ? 'disabled' : '' %>"> <!-- 到最後頁 就disable -->
+                      <a class="page-link" href="?page=<%= page+1 %>">
+                        <i class="fas fa-arrow-circle-right"></i>
+                      </a>
+                    </li>
+              
+                </ul>
+              </nav>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">編號</th>
+                    <th scope="col">帳號</th>
+                    <th scope="col">姓名</th>
+                    <th scope="col">電郵</th>
+                    <th scope="col">手機</th>
+                    <th scope="col">生日</th>
+                    <th scope="col">地址</th>
+                    <th scope="col">刪除</th>
+                    <th scope="col">修改</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(let i of rows){ %>
+                  <tr>
+                    <td><%= i.sid %></td>
+                    <td><%= i.account %></td>
+                    <td><%= i.name %></td>
+                    <td><%= i.email %></td>
+                    <td><%= i.mobile %></td>
+                    <td><%= toDateString(i.birthday) %></td>
+                    <td><%= i.address %></td>
+                    <td>
+                      <a href="javascript: del_it(<%= i.sid %>)">  <!--javascript: del_it 假連結 於下面script去呼叫-->
+                        <i class="fas fa-trash-alt"></i>
+                      </a>
+                    </td>
+                    <td>
+                      <a href="/address-book/edit/<%= i.sid %>">
+                        <i class="fas fa-edit"></i>
+                      </a>
+                    </td>
+                    
+                  </tr>
+                  <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</div>
+
+<%- include('parts/scripts') %>
+<script>
+  function del_it(sid){
+    if(confirm(`1是否確定刪除編號為 ${sid}的資料?`)){   //confirm 會跳出確認視窗
+      location.href='/address-book/del/'+sid;
+    }
+  }
+</script>
+
+
+
+<%- include('parts/html-foot') %>
